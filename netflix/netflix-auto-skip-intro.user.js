@@ -4,7 +4,7 @@
 // @author       Tor Røttum
 // @description  Automatically skips Netflix intro
 // @include      https://www.netflix.com/*
-// @version      1.0.1
+// @version      1.1.0
 // @homepage     https://github.com/torrottum/userscripts
 // @updateURL    https://raw.githubusercontent.com/torrottum/userscripts/master/netflix/netflix-auto-skip-intro.user.js
 // @downloadURL  https://raw.githubusercontent.com/torrottum/userscripts/master/netflix/netflix-auto-skip-intro.user.js
@@ -13,20 +13,30 @@
 (() => {
     'use strict';
 
-    let check = () => {
-        let skipContainer = document.querySelector('div.skip-credits');
+    let target = document.querySelector('body')
 
-        if (!skipContainer) {
-            return setTimeout(check, 800)
-        }
+    let cb = (mutations) => {
+        mutations.forEach(m => {
+            if (!m.addedNodes || m.addedNodes.length === 0) {
+                return
+            }
 
-        if (!skipContainer.classList.contains('skip-credits-hidden')) {
-            document.querySelector('a.nf-icon-button.nf-flat-button.no-icon').click()
+            let node = m.addedNodes[0]
 
-            // wait a little longer, because the button fades slowly in Safari
-            return setTimeout(check, 15000)
-        }
+            if (node.className !== 'skip-credits') {
+                return
+            }
+
+            if (node.children.length > 0) {
+                node.children[0].click()
+            }
+        })
     }
 
-    check()
+    let observer = new MutationObserver(cb)
+
+    observer.observe(target, {
+        childList: true,
+        subtree: true,
+    })
 })()
