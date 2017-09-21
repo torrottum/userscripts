@@ -4,7 +4,8 @@
 // @author       Tor Røttum
 // @description  Automatically plays next Netflix episode
 // @include      https://www.netflix.com/*
-// @version      1.0.0
+// @version      1.0.1
+// @homepage     https://github.com/torrottum/userscripts
 // @updateURL    https://raw.githubusercontent.com/torrottum/userscripts/master/netflix/netflix-auto-next-episode.user.js
 // @downloadURL  https://raw.githubusercontent.com/torrottum/userscripts/master/netflix/netflix-auto-next-episode.user.js
 // @run-at document-end
